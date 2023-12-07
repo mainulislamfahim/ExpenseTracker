@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:expense_tracker/models/expense_model.dart';
 
@@ -70,12 +71,20 @@ class _NewExpenseState extends State<NewExpense> {
           date: selectDate!,
           category: _selectedCategory),
     );
+    Navigator.pop(context);
+  }
+
+  String toCamelCase(String input) {
+    return input.replaceAllMapped(
+      RegExp(r'_\w|(\b\w)'),
+      (match) => match.group(0)!.toUpperCase(),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.fromLTRB(16, 50, 16, 16),
       child: Column(
         children: [
           TextField(
@@ -119,20 +128,20 @@ class _NewExpenseState extends State<NewExpense> {
               ),
             ],
           ),
+          const SizedBox(
+            height: 15,
+          ),
           Row(
             children: [
-              DropdownButton(
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.black87),
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: DropdownButton<Categorys>(
+                  alignment: Alignment.center,
+                  elevation: 10,
                   value: _selectedCategory,
-                  items: Categorys.values
-                      .map(
-                        (category) => DropdownMenuItem(
-                          value: category,
-                          child: Text(
-                            category.name.toString(),
-                          ),
-                        ),
-                      )
-                      .toList(),
                   onChanged: (value) {
                     if (value == null) {
                       return;
@@ -140,15 +149,81 @@ class _NewExpenseState extends State<NewExpense> {
                     setState(() {
                       _selectedCategory = value;
                     });
-                  }),
+                  },
+                  underline: Container(), // Remove the default underline
+                  icon: const Icon(Icons.arrow_drop_down, color: Colors.black),
+                  style: GoogleFonts.poppins(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.black),
+                  selectedItemBuilder: (BuildContext context) {
+                    return Categorys.values.map<Widget>((Categorys category) {
+                      return Row(
+                        children: [
+                          Icon(categoryIcons[category]),
+                          const SizedBox(width: 5),
+                          Text(
+                            toCamelCase(category.name.toString()),
+                            style: GoogleFonts.poppins(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.black),
+                          ),
+                        ],
+                      );
+                    }).toList();
+                  },
+                  items: Categorys.values.map((Categorys category) {
+                    return DropdownMenuItem<Categorys>(
+                      value: category,
+                      child: Text(
+                        toCamelCase(category.name.toString()),
+                        style: GoogleFonts.poppins(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black),
+                      ),
+                    );
+                  }).toList(),
+                ),
+              ),
+              const Spacer(),
               TextButton(
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: const Text('Cancel'),
+                child: Text(
+                  'Cancel',
+                  style: GoogleFonts.poppins(fontSize: 16),
+                ),
               ),
-              ElevatedButton(
-                  onPressed: _saveExpense, child: const Text('Save Expense'))
+              MouseRegion(
+                cursor: SystemMouseCursors.click,
+                child: ElevatedButton(
+                  onPressed: _saveExpense,
+                  style: ButtonStyle(
+                    elevation: MaterialStateProperty.resolveWith<double>(
+                        (Set<MaterialState> states) {
+                      return states.contains(MaterialState.hovered)
+                          ? 10
+                          : 0; // Adjust the elevation for hover effect
+                    }),
+                    side: MaterialStateProperty.all(
+                        BorderSide(color: Colors.black)), // Outline border
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                      ),
+                    ),
+                  ),
+                  child: Text(
+                    'Save Expense',
+                    style: GoogleFonts.poppins(
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+              )
             ],
           ),
         ],
