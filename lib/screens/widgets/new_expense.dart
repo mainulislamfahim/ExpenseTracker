@@ -118,10 +118,14 @@ class _NewExpenseState extends State<NewExpense> {
                       selectDate == null
                           ? 'No date selected'
                           : formatter.format(selectDate!),
+                      style: GoogleFonts.poppins(fontSize: 14),
                     ),
                     IconButton(
                       onPressed: _openDatePicker,
-                      icon: const Icon(Icons.calendar_month),
+                      icon: const Icon(
+                        Icons.calendar_month,
+                        size: 36,
+                      ),
                     ),
                   ],
                 ),
