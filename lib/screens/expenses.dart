@@ -50,7 +50,12 @@ class _ExpensesState extends State<Expenses> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         duration: const Duration(seconds: 3),
-        content: const Text('Expense Deleted'),
+        content: Text(
+          'Expense Deleted',
+          style: GoogleFonts.poppins(
+            fontSize: 16,
+          ),
+        ),
         action: SnackBarAction(
           label: "Undo",
           onPressed: () {
@@ -80,24 +85,31 @@ class _ExpensesState extends State<Expenses> {
     }
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           'Expense Tracker',
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
+          style: GoogleFonts.poppins(
+            fontSize: 19,
           ),
         ),
         actions: [
           IconButton(
             onPressed: _openAdd,
-            icon: const Icon(Icons.add),
+            icon: const Icon(
+              Icons.add,
+              size: 26,
+            ),
           )
         ],
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Text('The Chart'),
+          Text(
+            'The Chart',
+            style: GoogleFonts.poppins(
+              fontSize: 15,
+            ),
+          ),
           Expanded(child: mainContent),
         ],
       ),

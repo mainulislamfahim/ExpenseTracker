@@ -50,15 +50,30 @@ class _NewExpenseState extends State<NewExpense> {
       showDialog(
         context: context,
         builder: (ctx) => AlertDialog(
-          title: const Text('Invalid Input'),
-          content: const Text(
-              'Please Make Sure valid title, amount, date and catagory was entered.'),
+          title: Text(
+            'Invalid Input',
+            style: GoogleFonts.poppins(
+              fontSize: 16,
+            ),
+          ),
+          content: Text(
+            'Please Make Sure valid title, amount, date and catagory was entered.',
+            style: GoogleFonts.poppins(
+              fontSize: 16,
+            ),
+          ),
           actions: [
             TextButton(
-                onPressed: () {
-                  Navigator.pop(ctx);
-                },
-                child: const Text('okay')),
+              onPressed: () {
+                Navigator.pop(ctx);
+              },
+              child: Text(
+                'okay',
+                style: GoogleFonts.poppins(
+                  fontSize: 16,
+                ),
+              ),
+            ),
           ],
         ),
       );
@@ -90,8 +105,13 @@ class _NewExpenseState extends State<NewExpense> {
           TextField(
             controller: _titleController,
             maxLength: 50,
-            decoration: const InputDecoration(
-              label: Text('Title'),
+            decoration: InputDecoration(
+              label: Text(
+                'Title',
+                style: GoogleFonts.poppins(
+                  fontSize: 16,
+                ),
+              ),
             ),
           ),
           Row(
@@ -100,9 +120,14 @@ class _NewExpenseState extends State<NewExpense> {
                 child: TextField(
                   controller: _amountController,
                   keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     suffixText: 'Tk',
-                    label: Text('Amount'),
+                    label: Text(
+                      'Amount',
+                      style: GoogleFonts.poppins(
+                        fontSize: 16,
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -139,56 +164,62 @@ class _NewExpenseState extends State<NewExpense> {
             children: [
               Container(
                 decoration: BoxDecoration(
-                  border: Border.all(color: Colors.black87),
+                  border: Border.all(color: Colors.grey),
                   borderRadius: BorderRadius.circular(8.0),
                 ),
-                child: DropdownButton<Categorys>(
-                  alignment: Alignment.center,
-                  elevation: 10,
-                  value: _selectedCategory,
-                  onChanged: (value) {
-                    if (value == null) {
-                      return;
-                    }
-                    setState(() {
-                      _selectedCategory = value;
-                    });
-                  },
-                  underline: Container(), // Remove the default underline
-                  icon: const Icon(Icons.arrow_drop_down, color: Colors.black),
-                  style: GoogleFonts.poppins(
+                child: Theme(
+                  data: Theme.of(context).copyWith(
+                    canvasColor: Colors
+                        .white, // Set the background color for the dropdown menu
+                  ),
+                  child: DropdownButton<Categorys>(
+                    alignment: Alignment.center,
+                    elevation: 10,
+                    value: _selectedCategory,
+                    onChanged: (value) {
+                      if (value == null) {
+                        return;
+                      }
+                      setState(() {
+                        _selectedCategory = value;
+                      });
+                    },
+                    underline: Container(), // Remove the default underline
+                    icon:
+                        const Icon(Icons.arrow_drop_down, color: Colors.black),
+                    style: GoogleFonts.poppins(
                       fontSize: 15,
                       fontWeight: FontWeight.w400,
-                      color: Colors.black),
-                  selectedItemBuilder: (BuildContext context) {
-                    return Categorys.values.map<Widget>((Categorys category) {
-                      return Row(
-                        children: [
-                          Icon(categoryIcons[category]),
-                          const SizedBox(width: 5),
-                          Text(
-                            toCamelCase(category.name.toString()),
-                            style: GoogleFonts.poppins(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.black),
-                          ),
-                        ],
-                      );
-                    }).toList();
-                  },
-                  items: Categorys.values.map((Categorys category) {
-                    return DropdownMenuItem<Categorys>(
-                      value: category,
-                      child: Text(
-                        toCamelCase(category.name.toString()),
-                        style: GoogleFonts.poppins(
+                      color: Colors.black,
+                    ),
+                    selectedItemBuilder: (BuildContext context) {
+                      return Categorys.values.map<Widget>((Categorys category) {
+                        return Row(
+                          children: [
+                            Icon(categoryIcons[category]),
+                            const SizedBox(width: 5),
+                            Text(
+                              toCamelCase(category.name.toString()),
+                              style: Theme.of(context).textTheme.titleMedium,
+                            ),
+                          ],
+                        );
+                      }).toList();
+                    },
+                    items: Categorys.values.map((Categorys category) {
+                      return DropdownMenuItem<Categorys>(
+                        value: category,
+                        child: Text(
+                          toCamelCase(category.name.toString()),
+                          style: GoogleFonts.poppins(
                             fontSize: 15,
                             fontWeight: FontWeight.w400,
-                            color: Colors.black),
-                      ),
-                    );
-                  }).toList(),
+                            color: Colors.black,
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  ),
                 ),
               ),
               const Spacer(),
