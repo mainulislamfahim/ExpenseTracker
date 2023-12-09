@@ -7,11 +7,11 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Use Future.delayed to simulate a delay
-    Future.delayed(Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: 2), () {
       // Navigate to your main screen (Expenses)
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => Expenses()),
+        MaterialPageRoute(builder: (context) => const Expenses()),
       );
     });
 
@@ -21,19 +21,20 @@ class SplashScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             FadeInDown(
+              duration: const Duration(milliseconds: 800),
               child: Image.asset('assets/images/logo.png'),
-              duration: Duration(milliseconds: 800),
             ), // Replace with your image asset
-            SizedBox(height: 16),
+            const SizedBox(height: 10),
             FadeInUp(
-              child: Text(
+              duration: const Duration(milliseconds: 800),
+              child: const Text(
                 'Expense Tracker',
-                style: GoogleFonts.lato(
-                  fontSize: 24,
+                style: TextStyle(
+                  fontSize: 35,
+                  fontFamily: 'Splash',
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              duration: Duration(milliseconds: 800),
             ),
           ],
         ),
