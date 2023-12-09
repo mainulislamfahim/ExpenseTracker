@@ -1,4 +1,5 @@
 import 'package:expense_tracker/models/expense_model.dart';
+import 'package:expense_tracker/screens/widgets/chart/chart.dart';
 import 'package:expense_tracker/screens/widgets/expense_list.dart';
 import 'package:expense_tracker/screens/widgets/new_expense.dart';
 import 'package:flutter/material.dart';
@@ -104,12 +105,7 @@ class _ExpensesState extends State<Expenses> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
-            'The Chart',
-            style: GoogleFonts.poppins(
-              fontSize: 15,
-            ),
-          ),
+          Chart(expenseModel: _registeredExpenses),
           Expanded(child: mainContent),
         ],
       ),
