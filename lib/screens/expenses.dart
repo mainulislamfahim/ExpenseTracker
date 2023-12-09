@@ -2,7 +2,9 @@ import 'package:expense_tracker/models/expense_model.dart';
 import 'package:expense_tracker/screens/widgets/chart/chart.dart';
 import 'package:expense_tracker/screens/widgets/expense_list.dart';
 import 'package:expense_tracker/screens/widgets/new_expense.dart';
+import 'package:expense_tracker/screens/widgets/pieChart/PieChartWidget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_xlider/flutter_xlider.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Expenses extends StatefulWidget {
@@ -13,6 +15,7 @@ class Expenses extends StatefulWidget {
 }
 
 class _ExpensesState extends State<Expenses> {
+  bool usePieChart = true; // Initial value
   final List<ExpenseModel> _registeredExpenses = [
     ExpenseModel(
       title: 'Flutter Course',
@@ -105,7 +108,17 @@ class _ExpensesState extends State<Expenses> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Chart(expenseModel: _registeredExpenses),
+          usePieChart
+              ? PieChartWidget(expenseModel: _registeredExpenses)
+              : Chart(expenseModel: _registeredExpenses),
+          Switch(
+            value: usePieChart,
+            onChanged: (value) {
+              setState(() {
+                usePieChart = value;
+              });
+            },
+          ),
           Expanded(child: mainContent),
         ],
       ),

@@ -38,6 +38,8 @@ dependencies:
   uuid: ^4.2.1
   intl: ^0.18.1
   google_fonts: ^6.1.0
+  fl_chart: ^0.46.0
+  flutter_xlider: ^3.5.0
 
 dev_dependencies:
   flutter_test:
