@@ -1,3 +1,4 @@
+import 'package:expense_tracker/screens/SplashScreen.dart';
 import 'package:expense_tracker/screens/expenses.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -59,7 +60,7 @@ void main() {
             ),
       ),
       themeMode: ThemeMode.system,
-      home: const Expenses(),
+      home: SplashScreen(),
     ),
   );
 }
