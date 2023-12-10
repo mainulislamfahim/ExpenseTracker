@@ -102,6 +102,15 @@ class _NewExpenseState extends State<NewExpense> {
       padding: const EdgeInsets.fromLTRB(16, 50, 16, 16),
       child: Column(
         children: [
+          Title(
+            color: ThemeData().cardColor,
+            child: Text(
+              'Add New Expense',
+              style: GoogleFonts.poppins(
+                fontSize: 20,
+              ),
+            ),
+          ),
           TextField(
             controller: _titleController,
             maxLength: 50,
@@ -132,7 +141,7 @@ class _NewExpenseState extends State<NewExpense> {
                 ),
               ),
               const SizedBox(
-                width: 16,
+                width: 10,
               ),
               Expanded(
                 child: Row(
@@ -141,7 +150,7 @@ class _NewExpenseState extends State<NewExpense> {
                   children: [
                     Text(
                       selectDate == null
-                          ? 'No date selected'
+                          ? 'Select Date'
                           : formatter.format(selectDate!),
                       style: GoogleFonts.poppins(fontSize: 14),
                     ),
@@ -149,7 +158,7 @@ class _NewExpenseState extends State<NewExpense> {
                       onPressed: _openDatePicker,
                       icon: const Icon(
                         Icons.calendar_month,
-                        size: 36,
+                        size: 25,
                       ),
                     ),
                   ],
@@ -243,8 +252,8 @@ class _NewExpenseState extends State<NewExpense> {
                           ? 10
                           : 0; // Adjust the elevation for hover effect
                     }),
-                    side: MaterialStateProperty.all(
-                        BorderSide(color: Colors.black)), // Outline border
+                    side: MaterialStateProperty.all(const BorderSide(
+                        color: Colors.black)), // Outline border
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30.0),

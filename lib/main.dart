@@ -11,6 +11,7 @@ var kDarkColor = ColorScheme.fromSeed(
   seedColor: const Color.fromARGB(255, 5, 99, 125),
 );
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(
     MaterialApp(
       darkTheme: ThemeData.dark().copyWith(
@@ -59,6 +60,7 @@ void main() {
               ),
             ),
       ),
+      debugShowCheckedModeBanner: false,
       themeMode: ThemeMode.system,
       home: SplashScreen(),
     ),

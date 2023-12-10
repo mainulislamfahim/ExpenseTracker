@@ -4,7 +4,6 @@ import 'package:expense_tracker/screens/widgets/expense_list.dart';
 import 'package:expense_tracker/screens/widgets/new_expense.dart';
 import 'package:expense_tracker/screens/widgets/pieChart/PieChartWidget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_xlider/flutter_xlider.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Expenses extends StatefulWidget {
@@ -109,8 +108,8 @@ class _ExpensesState extends State<Expenses> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           usePieChart
-              ? PieChartWidget(expenseModel: _registeredExpenses)
-              : Chart(expenseModel: _registeredExpenses),
+              ? Chart(expenseModel: _registeredExpenses)
+              : PieChartWidget(expenseModel: _registeredExpenses),
           Switch(
             value: usePieChart,
             onChanged: (value) {

@@ -9,6 +9,7 @@ class ExpenseItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      elevation: 10,
       child: Padding(
         padding: const EdgeInsets.symmetric(
           horizontal: 20,
