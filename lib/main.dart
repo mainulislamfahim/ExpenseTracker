@@ -2,6 +2,7 @@ import 'package:expense_tracker/screens/SplashScreen.dart';
 import 'package:expense_tracker/screens/expenses.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+//import 'package:flutter/services.dart';
 
 var kColor = ColorScheme.fromSeed(
   seedColor: const Color.fromARGB(255, 96, 59, 181),
@@ -12,6 +13,12 @@ var kDarkColor = ColorScheme.fromSeed(
 );
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  // SystemChrome.setPreferredOrientations(
+  //   [
+  //     DeviceOrientation.portraitUp,
+  //   ],
+  // ).then(
+  //   (value) {
   runApp(
     MaterialApp(
       darkTheme: ThemeData.dark().copyWith(
@@ -65,4 +72,6 @@ void main() {
       home: SplashScreen(),
     ),
   );
+  //   },
+  // );
 }

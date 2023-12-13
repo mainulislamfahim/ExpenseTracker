@@ -98,180 +98,339 @@ class _NewExpenseState extends State<NewExpense> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 50, 16, 16),
-      child: Column(
-        children: [
-          Title(
-            color: ThemeData().cardColor,
-            child: Text(
-              'Add New Expense',
-              style: GoogleFonts.poppins(
-                fontSize: 20,
-              ),
-            ),
-          ),
-          TextField(
-            controller: _titleController,
-            maxLength: 50,
-            decoration: InputDecoration(
-              label: Text(
-                'Title',
-                style: GoogleFonts.poppins(
-                  fontSize: 16,
-                ),
-              ),
-            ),
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: TextField(
-                  controller: _amountController,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    suffixText: 'Tk',
-                    label: Text(
-                      'Amount',
-                      style: GoogleFonts.poppins(
-                        fontSize: 16,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                width: 10,
-              ),
-              Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      selectDate == null
-                          ? 'Select Date'
-                          : formatter.format(selectDate!),
-                      style: GoogleFonts.poppins(fontSize: 14),
-                    ),
-                    IconButton(
-                      onPressed: _openDatePicker,
-                      icon: const Icon(
-                        Icons.calendar_month,
-                        size: 25,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 15,
-          ),
-          Row(
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey),
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                child: Theme(
-                  data: Theme.of(context).copyWith(
-                    canvasColor: Colors
-                        .white, // Set the background color for the dropdown menu
-                  ),
-                  child: DropdownButton<Categorys>(
-                    alignment: Alignment.center,
-                    elevation: 10,
-                    value: _selectedCategory,
-                    onChanged: (value) {
-                      if (value == null) {
-                        return;
-                      }
-                      setState(() {
-                        _selectedCategory = value;
-                      });
-                    },
-                    underline: Container(), // Remove the default underline
-                    icon:
-                        const Icon(Icons.arrow_drop_down, color: Colors.black),
+    final keyboardSpace = MediaQuery.of(context).viewInsets.bottom;
+    return LayoutBuilder(builder: (ctx, constraints) {
+      final width = constraints.maxWidth;
+      return SizedBox(
+        height: double.infinity,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(16, 16, 16, keyboardSpace + 16),
+            child: Column(
+              children: [
+                Title(
+                  color: ThemeData().cardColor,
+                  child: Text(
+                    'Add New Expense',
                     style: GoogleFonts.poppins(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.black,
+                      fontSize: 20,
                     ),
-                    selectedItemBuilder: (BuildContext context) {
-                      return Categorys.values.map<Widget>((Categorys category) {
-                        return Row(
-                          children: [
-                            Icon(categoryIcons[category]),
-                            const SizedBox(width: 5),
-                            Text(
-                              toCamelCase(category.name.toString()),
-                              style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                ),
+                if (width >= 600)
+                  Row(
+                    //mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: TextField(
+                          controller: _titleController,
+                          maxLength: 25,
+                          decoration: InputDecoration(
+                            label: Text(
+                              'Title',
+                              style: GoogleFonts.poppins(
+                                fontSize: 16,
+                              ),
                             ),
-                          ],
-                        );
-                      }).toList();
-                    },
-                    items: Categorys.values.map((Categorys category) {
-                      return DropdownMenuItem<Categorys>(
-                        value: category,
-                        child: Text(
-                          toCamelCase(category.name.toString()),
-                          style: GoogleFonts.poppins(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black,
                           ),
                         ),
-                      );
-                    }).toList(),
-                  ),
-                ),
-              ),
-              const Spacer(),
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text(
-                  'Cancel',
-                  style: GoogleFonts.poppins(fontSize: 16),
-                ),
-              ),
-              MouseRegion(
-                cursor: SystemMouseCursors.click,
-                child: ElevatedButton(
-                  onPressed: _saveExpense,
-                  style: ButtonStyle(
-                    elevation: MaterialStateProperty.resolveWith<double>(
-                        (Set<MaterialState> states) {
-                      return states.contains(MaterialState.hovered)
-                          ? 10
-                          : 0; // Adjust the elevation for hover effect
-                    }),
-                    side: MaterialStateProperty.all(const BorderSide(
-                        color: Colors.black)), // Outline border
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30.0),
+                      ),
+                      const SizedBox(
+                        width: 30,
+                      ),
+                      Expanded(
+                        child: TextField(
+                          controller: _amountController,
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                            suffixText: 'Tk',
+                            label: Text(
+                              'Amount',
+                              style: GoogleFonts.poppins(
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+                else
+                  TextField(
+                    controller: _titleController,
+                    maxLength: 50,
+                    decoration: InputDecoration(
+                      label: Text(
+                        'Title',
+                        style: GoogleFonts.poppins(
+                          fontSize: 16,
+                        ),
                       ),
                     ),
                   ),
-                  child: Text(
-                    'Save Expense',
-                    style: GoogleFonts.poppins(
-                      fontSize: 16,
-                    ),
+                if (width >= 600)
+                  Row(
+                    children: [
+                      DropdownButton<Categorys>(
+                        alignment: Alignment.center,
+                        elevation: 10,
+                        value: _selectedCategory,
+                        onChanged: (value) {
+                          if (value == null) {
+                            return;
+                          }
+                          setState(() {
+                            _selectedCategory = value;
+                          });
+                        },
+                        underline: Container(), // Remove the default underline
+                        icon: const Icon(Icons.arrow_drop_down,
+                            color: Colors.black),
+                        style: GoogleFonts.poppins(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.black,
+                        ),
+                        selectedItemBuilder: (BuildContext context) {
+                          return Categorys.values
+                              .map<Widget>((Categorys category) {
+                            return Row(
+                              children: [
+                                Icon(categoryIcons[category]),
+                                const SizedBox(width: 5),
+                                Text(
+                                  toCamelCase(category.name.toString()),
+                                  style:
+                                      Theme.of(context).textTheme.titleMedium,
+                                ),
+                              ],
+                            );
+                          }).toList();
+                        },
+                        items: Categorys.values.map((Categorys category) {
+                          return DropdownMenuItem<Categorys>(
+                            value: category,
+                            child: Text(
+                              toCamelCase(category.name.toString()),
+                              style: GoogleFonts.poppins(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.black,
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                      const SizedBox(
+                        width: 24,
+                      ),
+                      Expanded(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              selectDate == null
+                                  ? 'Select Date'
+                                  : formatter.format(selectDate!),
+                              style: GoogleFonts.poppins(fontSize: 16),
+                            ),
+                            IconButton(
+                              onPressed: _openDatePicker,
+                              icon: const Icon(
+                                Icons.calendar_month,
+                                size: 25,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  )
+                else
+                  Row(
+                    children: [
+                      Expanded(
+                        child: TextField(
+                          controller: _amountController,
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                            suffixText: 'Tk',
+                            label: Text(
+                              'Amount',
+                              style: GoogleFonts.poppins(
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                    ],
                   ),
+                const SizedBox(
+                  height: 15,
                 ),
-              )
-            ],
+                if (width >= 600)
+                  Row(
+                    children: [
+                      const Spacer(),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text(
+                          'Cancel',
+                          style: GoogleFonts.poppins(fontSize: 16),
+                        ),
+                      ),
+                      MouseRegion(
+                        cursor: SystemMouseCursors.click,
+                        child: ElevatedButton(
+                          onPressed: _saveExpense,
+                          style: ButtonStyle(
+                            elevation:
+                                MaterialStateProperty.resolveWith<double>(
+                                    (Set<MaterialState> states) {
+                              return states.contains(MaterialState.hovered)
+                                  ? 10
+                                  : 0; // Adjust the elevation for hover effect
+                            }),
+                            side: MaterialStateProperty.all(const BorderSide(
+                                color: Colors.black)), // Outline border
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30.0),
+                              ),
+                            ),
+                          ),
+                          child: Text(
+                            'Save Expense',
+                            style: GoogleFonts.poppins(
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+                else
+                  Row(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.grey),
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                        child: Theme(
+                          data: Theme.of(context).copyWith(
+                            canvasColor: Colors
+                                .white, // Set the background color for the dropdown menu
+                          ),
+                          child: DropdownButton<Categorys>(
+                            alignment: Alignment.center,
+                            elevation: 10,
+                            value: _selectedCategory,
+                            onChanged: (value) {
+                              if (value == null) {
+                                return;
+                              }
+                              setState(() {
+                                _selectedCategory = value;
+                              });
+                            },
+                            underline:
+                                Container(), // Remove the default underline
+                            icon: const Icon(Icons.arrow_drop_down,
+                                color: Colors.black),
+                            style: GoogleFonts.poppins(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.black,
+                            ),
+                            selectedItemBuilder: (BuildContext context) {
+                              return Categorys.values
+                                  .map<Widget>((Categorys category) {
+                                return Row(
+                                  children: [
+                                    Icon(categoryIcons[category]),
+                                    const SizedBox(width: 5),
+                                    Text(
+                                      toCamelCase(category.name.toString()),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleMedium,
+                                    ),
+                                  ],
+                                );
+                              }).toList();
+                            },
+                            items: Categorys.values.map((Categorys category) {
+                              return DropdownMenuItem<Categorys>(
+                                value: category,
+                                child: Text(
+                                  toCamelCase(category.name.toString()),
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                      ),
+                      const Spacer(),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text(
+                          'Cancel',
+                          style: GoogleFonts.poppins(fontSize: 16),
+                        ),
+                      ),
+                      MouseRegion(
+                        cursor: SystemMouseCursors.click,
+                        child: ElevatedButton(
+                          onPressed: _saveExpense,
+                          style: ButtonStyle(
+                            elevation:
+                                MaterialStateProperty.resolveWith<double>(
+                                    (Set<MaterialState> states) {
+                              return states.contains(MaterialState.hovered)
+                                  ? 10
+                                  : 0; // Adjust the elevation for hover effect
+                            }),
+                            side: MaterialStateProperty.all(const BorderSide(
+                                color: Colors.black)), // Outline border
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30.0),
+                              ),
+                            ),
+                          ),
+                          child: Text(
+                            'Save Expense',
+                            style: GoogleFonts.poppins(
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+              ],
+            ),
           ),
-        ],
-      ),
-    );
+        ),
+      );
+    });
   }
 }

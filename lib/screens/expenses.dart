@@ -32,6 +32,7 @@ class _ExpensesState extends State<Expenses> {
 
   void _openAdd() {
     showModalBottomSheet(
+      useSafeArea: true,
       isScrollControlled: true,
       context: context,
       builder: (ctx) => NewExpense(onAdd: _addExpense),
@@ -73,6 +74,8 @@ class _ExpensesState extends State<Expenses> {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+
     Widget mainContent = Center(
       child: Text(
         'No Expense Found. Add New Expenses \'+\'',
@@ -104,23 +107,50 @@ class _ExpensesState extends State<Expenses> {
           )
         ],
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          usePieChart
-              ? Chart(expenseModel: _registeredExpenses)
-              : PieChartWidget(expenseModel: _registeredExpenses),
-          Switch(
-            value: usePieChart,
-            onChanged: (value) {
-              setState(() {
-                usePieChart = value;
-              });
-            },
-          ),
-          Expanded(child: mainContent),
-        ],
-      ),
+      body: width < 600
+          ? Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                usePieChart
+                    ? Chart(expenseModel: _registeredExpenses)
+                    : PieChartWidget(expenseModel: _registeredExpenses),
+                Switch(
+                  value: usePieChart,
+                  onChanged: (value) {
+                    setState(() {
+                      usePieChart = value;
+                    });
+                  },
+                ),
+                Expanded(child: mainContent),
+              ],
+            )
+          : Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: Column(
+                    children: [
+                      usePieChart
+                          ? Expanded(
+                              child: Chart(expenseModel: _registeredExpenses))
+                          : Expanded(
+                              child: PieChartWidget(
+                                  expenseModel: _registeredExpenses)),
+                      Switch(
+                        value: usePieChart,
+                        onChanged: (value) {
+                          setState(() {
+                            usePieChart = value;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+                Expanded(child: mainContent),
+              ],
+            ),
     );
   }
 }
